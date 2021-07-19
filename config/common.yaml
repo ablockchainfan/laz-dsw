@@ -1,0 +1,65 @@
+# Common tags applied to all resources
+tags:
+  cdk-stack: dsw-stack
+
+name: dsw
+
+network:
+  vpc:
+    # natGatewaySubnetName: Private
+    maxAzs: 2
+  
+  subnets:
+    # Backend subnet
+    - cidrMask: 21
+      name: Private
+      subnetType: ISOLATED
+    # Data subnet
+    # - cidrMask: 22
+    #   name: Data
+    #   subnetType: ISOLATED
+    # Public subnet
+    # - cidrMask: 21
+    #   name: Public
+    #   subnetType: PUBLIC
+  tgw:
+    name: TGW
+    description: "This is TGW"
+
+compute:
+  eks:
+    eksOptimizedImage: STANDARD
+    version: "1.18"
+    nodeGroup:
+      name: NodeGroup01
+      instanceType: t3.medium
+      maxCapacity: 3
+      minCapacity: 1
+      desiredCapacity: 1
+      subnetGroupName: Private
+    subnetGroupNames:
+      - Private
+      - Data
+
+data:
+  elasticsearch:
+    domainName: cdk-template
+    version: "7.9"
+    capacity:
+      masterNodes:
+        instanceType: m5.large.elasticsearch
+        count: 3
+      dataNodes:
+        instanceType: c5.xlarge.elasticsearch
+        count: 3
+    ebs:
+      volumeSize: 32
+    zoneAwareness:
+      enabled: true
+      count: 3
+    subnetGroupName: Data
+    logging:
+      appLogEnabled: true
+      auditLogEnabled: true
+      slowIndexLogEnabled: true
+      slowIearchLogEnabled: true
