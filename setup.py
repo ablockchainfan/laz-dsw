@@ -12,7 +12,7 @@ def __read_cdk_version() -> str:
 CDK_VERSION = __read_cdk_version()
 
 setuptools.setup(
-    name="cdk_template",
+    name="laz-dsw",
     version="0.0.1",
 
     description="A sample CDK Python app",
@@ -26,6 +26,7 @@ setuptools.setup(
         "aws-cdk.aws-ec2==" + CDK_VERSION,
         "aws-cdk.aws-eks==" + CDK_VERSION,
         "aws-cdk.aws-elasticsearch==" + CDK_VERSION,
+        "aws-cdk.aws-rds==" + CDK_VERSION,
         "python-benedict==0.22.4"
     ],
 

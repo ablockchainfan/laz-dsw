@@ -27,8 +27,21 @@ class NetworkStack(core.Stack):
         sg = SecurityGourp(self, "SecurityGroups", self.vpc)
         self.es_sg_id = sg.es_sg.security_group_id
 
-        tgwConstruct = Tgw(self, 'Tgw', vpcConstruct.vpc, config )
+        # core.CfnOutput(self, "dsw-vpc-id", value=self.vpc.vpc_id )
+        # core.CfnOutput(self, "dsw-es-sg-id", value= self.es_sg_id)
+        
+        # tgwConstruct = Tgw(self, 'Tgw', config )
+        tgw_id = config['network']['tgw']['id']
 
-        TgwAttach(self, 'tgw_attachment_vpc1', tgw_id=tgwConstruct.TransitGateway.ref,vpc=self.vpc, config=config )
+        # tga = TgwAttach(self, 'tgw_attachment_vpc1', tgw_id="tgw-0b4401534e054d787", vpc=self.vpc, config=config )
+        # tga = TgwAttach(self, 'tgw_attachment_vpc1', tgw_id=tgwConstruct.TransitGateway.ref,vpc=self.vpc, config=config )
 
+        # tga.TransitGatewayAttachment.add_depends_on(tgwConstruct.TransitGateway)
+        
+        # bastion = ec2.BastionHostLinux(self, "myBastion",
+        #                         vpc=self.vpc,
+        #                         subnet_selection=ec2.SubnetSelection(
+        #                             subnet_type=ec2.SubnetType.ISOLATED),
+        #                         instance_name="myBastionHostLinux",
+        #                         instance_type=ec2.InstanceType(instance_type_identifier="t2.large"))
 

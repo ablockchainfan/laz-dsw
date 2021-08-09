@@ -12,6 +12,9 @@ app = core.App()
 
 # Get target stage from cdk context
 stage = app.node.try_get_context('stage')
+
+print(stage)
+
 if stage is None or stage == "unknown":
     sys.exit('You need to set the target stage.'
              ' USAGE: cdk <command> -c stage=dev <stack>')
@@ -28,20 +31,22 @@ network_stack = NetworkStack(app,
                              env=env
                              )
 
-# ComputeStack(app,
-#              "ComputeStack",
-#              config=config,
-#              vpc=network_stack.vpc,
-#              es_sg_id=network_stack.es_sg_id,
-#              env=env
-#              )
+print(network_stack.vpc.vpc_id)
 
-# DataStack(app,
-#           "DataStack",
-#           config=config,
-#           vpc=network_stack.vpc,
-#           es_sg_id=network_stack.es_sg_id,
-#           env=env
-#           )
+compute_stack = ComputeStack(app,
+             "ComputeStack",
+             config=config,
+             vpc=network_stack.vpc,
+             es_sg_id=network_stack.es_sg_id,
+             env=env
+             )
+
+DataStack(app,
+          "DataStack",
+          config=config,
+          vpc=network_stack.vpc,
+          es_sg_id=network_stack.es_sg_id,
+          env=env
+          )
 
 app.synth()

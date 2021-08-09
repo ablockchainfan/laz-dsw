@@ -7,8 +7,8 @@ from utils import config_util
 
 def get_template():
     app = core.App()
-    network_stack.NetworkStack(app, "cdk-template", config_util.load_config("dev"))
-    return json.dumps(app.synth().get_stack("cdk-template").template)
+    network_stack.NetworkStack(app, "laz-dsw", config_util.load_config("dev"))
+    return json.dumps(app.synth().get_stack("laz-dsw").template)
 
 
 def test_vpc_created():

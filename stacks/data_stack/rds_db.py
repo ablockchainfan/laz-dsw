@@ -2,32 +2,53 @@
 
 from aws_cdk import (
     aws_ec2 as ec2,
-    aws_rds as rds,
+    aws_rds as rds, 
+    aws_secretsmanager as sm,
     core,
 )
+import json
 
-
-class RDSStack(core.Stack):
-    def __init__(self, app: core.App, id: str, **kwargs) -> None:
+class RDSStack(core.NestedStack):
+    def __init__(self, app: core.App, id: str, vpc, **kwargs) -> None:
         super().__init__(app, id, **kwargs)
 
-        vpc = ec2.Vpc(self, "VPC")
-
-        rds.DatabaseInstance(
+        # vpc = ec2.Vpc(self, "VPC")
+        json_template = {'username':'admin'}
+        db_creds = sm.Secret(
+            self, 'db-secret-pword',
+            description="Password for MSSQL",
+            secret_name= "mssql-db-secret",
+            generate_secret_string=sm.SecretStringGenerator(
+                include_space=False,
+                password_length=12,
+                generate_string_key="rds-pwd",
+                exclude_punctuation=True,
+                secret_string_template=json.dump(json_template)
+            )
+        )
+        rdsSql = rds.DatabaseInstance(
             self, "RDS",
             database_name="db1",
-            engine=rds.DatabaseInstanceEngine.mysql(
-                version=rds.MysqlEngineVersion.VER_8_0_16
-            ),
+            engine=rds.DatabaseInstanceEngine.sql_server_web(
+                version=rds.SqlServerEngineVersion.VER_14
+            ), 
             vpc=vpc,
-            port=3306,
+            # port=3306,
             instance_type= ec2.InstanceType.of(
-                ec2.InstanceClass.MEMORY4,
-                ec2.InstanceSize.LARGE,
+                ec2.InstanceClass.BURSTABLE3,
+                ec2.InstanceSize.MICRO,
             ),
             removal_policy=core.RemovalPolicy.DESTROY,
-            deletion_protection=False
-        ),
+            deletion_protection=False,
+            multi_az=False,
+            backup_retention=core.Duration.days(0),
+            credentials=rds.Credentials.from_password(
+                username="admin",
+                password=db_creds.secret_value_from_json("rds-pwd")
+            ),
+            instance_identifier="mymssql"
+        )
+        self.endPointAddress = rdsSql.db_instance_endpoint_address
 
 
 # app = core.App()

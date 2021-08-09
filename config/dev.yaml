@@ -1,10 +1,13 @@
 awsAccount: "526919081086"
-awsRegion: eu-west-2
+awsRegion: us-west-1
 
 network:
   vpc:
-    cidr: 10.10.128.0/18
-
+    cidr: 10.151.96.0/21
+  tgw:
+    name: TGW
+    description: "This is TGW"
+    id: tgw-0744dec08946ededc
 data:
   elasticsearch:
     capacity:

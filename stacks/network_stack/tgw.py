@@ -6,7 +6,7 @@ from aws_cdk import (
 )
 
 class Tgw(core.Construct):
-    def __init__(self, scope: core.Construct, id: str, vpc:ec2.Vpc ,config: Dict) -> None:
+    def __init__(self, scope: core.Construct, id: str, config: Dict) -> None:
         super().__init__(scope, id)
         self.config = config
         self._create_Tgw( )
@@ -27,16 +27,16 @@ class Tgw(core.Construct):
             )
 # tgw-022ff64e286df97ce
         # //attach VPCs to gateway
-    def attach_vpc(self, vpc:ec2.Vpc): 
-        TransitGatewayAttachment = ec2.CfnTransitGatewayAttachment(self, 'TransitGatewayAttachmentEgress', 
-            transit_gateway_id=self.TransitGateway.ref,
-            vpc_id= vpc.vpc_id,
-            subnet_ids= [vpc.isolated_subnets[0].subnet_id, vpc.isolated_subnets[1].subnet_id],
-            tags= [{
-                'key': 'Name',
-                'value': "TG-Egress-VPC-Private_SubNet-Attachment"
-            }],
-        )
+    # def attach_vpc(self, vpc:ec2.Vpc): 
+    #     TransitGatewayAttachment = ec2.CfnTransitGatewayAttachment(self, 'TransitGatewayAttachmentEgress', 
+    #         transit_gateway_id=self.TransitGateway.ref,
+    #         vpc_id= vpc.vpc_id,
+    #         subnet_ids= [vpc.isolated_subnets[0].subnet_id, vpc.isolated_subnets[1].subnet_id],
+    #         tags= [{
+    #             'key': 'Name',
+    #             'value': "TG-Egress-VPC-Private_SubNet-Attachment"
+    #         }],
+    #     )
 
         # TransitGatewayAttachmentEgress.addDependsOn(TransitGateway);
 

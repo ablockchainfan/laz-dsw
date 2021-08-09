@@ -11,7 +11,7 @@ network:
   
   subnets:
     # Backend subnet
-    - cidrMask: 21
+    - cidrMask: 24
       name: Private
       subnetType: ISOLATED
     # Data subnet
@@ -22,9 +22,6 @@ network:
     # - cidrMask: 21
     #   name: Public
     #   subnetType: PUBLIC
-  tgw:
-    name: TGW
-    description: "This is TGW"
 
 compute:
   eks:
@@ -39,11 +36,11 @@ compute:
       subnetGroupName: Private
     subnetGroupNames:
       - Private
-      - Data
+
 
 data:
   elasticsearch:
-    domainName: cdk-template
+    domainName: laz-dsw
     version: "7.9"
     capacity:
       masterNodes:
@@ -57,7 +54,7 @@ data:
     zoneAwareness:
       enabled: true
       count: 3
-    subnetGroupName: Data
+    subnetGroupName: Private
     logging:
       appLogEnabled: true
       auditLogEnabled: true

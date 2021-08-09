@@ -2,7 +2,8 @@ from typing import Dict, List
 
 from aws_cdk import (
     core,
-    aws_ec2 as ec2
+    aws_ec2 as ec2,
+    aws_s3 as s3
 )
 
 
@@ -31,8 +32,38 @@ class Vpc(core.Construct):
             #     subnet_group_name=vpc_config['natGatewaySubnetName']
             # ),
             enable_dns_hostnames=True,
-            enable_dns_support=True,
+            enable_dns_support=True 
         )
+        self.vpc.add_flow_log(id="flog", 
+                            destination=ec2.FlowLogDestination.to_s3(s3.Bucket.from_bucket_arn(self, "FlogBucket", "arn:aws:s3:::laz-flowlogbucket")),
+                            traffic_type=ec2.FlowLogTrafficType.ALL)
+        self.vpc.add_s3_endpoint(id="s3_end_laz")
+
+        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.s3",
+                service=ec2.InterfaceVpcEndpointService(
+                    name="com.amazonaws.us-west-1.s3", port=443))        
+
+        # self.vpc.add_gateway_endpoint(id="gws3ep",
+        #     service=ec2.GatewayVpcEndpointAwsService(name='gws3',
+        #     prefix="com.amazonaws.us-west-1.s3"))
+
+
+        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ec2",
+                service=ec2.InterfaceVpcEndpointService(
+                    name="com.amazonaws.us-west-1.ec2", port=443), private_dns_enabled=True)
+
+        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ssm",
+                service=ec2.InterfaceVpcEndpointService(
+                    name="com.amazonaws.us-west-1.ssm", port=443), private_dns_enabled=True)
+
+        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ec2messages",
+                service=ec2.InterfaceVpcEndpointService(
+                    name="com.amazonaws.us-west-1.ec2messages", port=443), private_dns_enabled=True)
+
+        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ssmmessages",
+                service=ec2.InterfaceVpcEndpointService(
+                    name="com.amazonaws.us-west-1.ssmmessages", port=443), private_dns_enabled=True)
+
 
     def __build_subnets_config(self):
         for subnet in self.config['network']['subnets']:

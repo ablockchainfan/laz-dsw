@@ -18,7 +18,7 @@ class SecurityGourp(core.Construct):
     def __create_es_sg(self) -> ec2.SecurityGroup:
         self.es_sg = ec2.SecurityGroup(
             self, 'Elasticsearch',
-            security_group_name='ElasticsearchSg',
+            security_group_name='ElasticsearchSg1',
             vpc=self._vpc,
             description='Elasticsearch security group',
         )

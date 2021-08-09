@@ -12,10 +12,11 @@ class TgwAttach(core.Construct):
         self.attach_vpc(tgw_id, vpc )
         # self.attach_vpc(vpc)
 
+    
     # tgw-022ff64e286df97ce
         # //attach VPCs to gateway
     def attach_vpc(self, tgw_id, vpc:ec2.Vpc): 
-        TransitGatewayAttachment = ec2.CfnTransitGatewayAttachment(self, 'TransitGatewayAttachmentEgress', 
+        self.TransitGatewayAttachment = ec2.CfnTransitGatewayAttachment(self, 'TransitGatewayAttachmentEgress', 
             transit_gateway_id=tgw_id,
             vpc_id= vpc.vpc_id,
             subnet_ids= [vpc.isolated_subnets[0].subnet_id, vpc.isolated_subnets[1].subnet_id],
@@ -26,13 +27,13 @@ class TgwAttach(core.Construct):
         )
 
         for  subnet in vpc.isolated_subnets:
-            ec2.CfnRoute(self, 
+            route = ec2.CfnRoute(self, 
                 subnet.node.unique_id, 
                 route_table_id=subnet.route_table.route_table_id,
                 destination_cidr_block="0.0.0.0/0",
                 transit_gateway_id=tgw_id )
+            route.add_depends_on(self.TransitGatewayAttachment)
             
-
         # TransitGatewayAttachmentEgress.addDependsOn(TransitGateway);
 
         # const TransitGatewayAttachmentPrivate = new ec2.CfnTransitGatewayAttachment(this, 'TransitGatewayAttachmentPrivate', {
