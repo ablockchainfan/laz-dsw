@@ -22,7 +22,7 @@ synth:
 	@cdk synth -c stage=$(STAGE) --output=cdk.out/$(STAGE) $(STACKS)
 
 deploy: synth
-	@cdk deploy --app=cdk.out/$(STAGE) $(STACKS)
+	@cdk deploy --app=cdk.out/$(STAGE) $(STACKS) --require-approval never
 
 diff:
 	@cdk diff -c stage=$(STAGE) $(STACKS)

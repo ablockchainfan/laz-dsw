@@ -49,7 +49,7 @@ class RDSStack(core.NestedStack):
             instance_identifier="mymssql"
         )
         self.endPointAddress = rdsSql.db_instance_endpoint_address
-
+        rdsSql.connections.allow_default_port_from()
 
 # app = core.App()
 # RDSStack(app, "RDSStack")

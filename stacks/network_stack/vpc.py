@@ -35,34 +35,35 @@ class Vpc(core.Construct):
             enable_dns_support=True 
         )
         self.vpc.add_flow_log(id="flog", 
-                            destination=ec2.FlowLogDestination.to_s3(s3.Bucket.from_bucket_arn(self, "FlogBucket", "arn:aws:s3:::laz-flowlogbucket")),
+                            destination=ec2.FlowLogDestination.to_s3(s3.Bucket.from_bucket_arn(self, "FlogBucket", self.config['network']['flowlog-bucket']['url'])),
                             traffic_type=ec2.FlowLogTrafficType.ALL)
-        self.vpc.add_s3_endpoint(id="s3_end_laz")
+        # self.vpc.add_s3_endpoint(id="s3_end_laz")
 
         self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.s3",
                 service=ec2.InterfaceVpcEndpointService(
                     name="com.amazonaws.us-west-1.s3", port=443))        
 
         # self.vpc.add_gateway_endpoint(id="gws3ep",
-        #     service=ec2.GatewayVpcEndpointAwsService(name='gws3',
-        #     prefix="com.amazonaws.us-west-1.s3"))
+        #     service=ec2.GatewayVpcEndpointAwsService(name= "s3",
+        #             prefix="com.amazonaws" ))
+        self.vpc.add_gateway_endpoint('S3Endpoint', 
+                        service=ec2.GatewayVpcEndpointAwsService.S3)
 
-
-        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ec2",
+        self.vpc.add_interface_endpoint(id="com.amazonaws.ec2",
                 service=ec2.InterfaceVpcEndpointService(
-                    name="com.amazonaws.us-west-1.ec2", port=443), private_dns_enabled=True)
+                    name="com.amazonaws."+ self.config["awsRegion"] + ".ec2", port=443), private_dns_enabled=True)
 
-        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ssm",
+        self.vpc.add_interface_endpoint(id="com.amazonaws.ssm",
                 service=ec2.InterfaceVpcEndpointService(
-                    name="com.amazonaws.us-west-1.ssm", port=443), private_dns_enabled=True)
+                    name="com.amazonaws."+ self.config["awsRegion"] + ".ssm", port=443), private_dns_enabled=True)
 
-        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ec2messages",
+        self.vpc.add_interface_endpoint(id="com.amazonaws.ec2messages",
                 service=ec2.InterfaceVpcEndpointService(
-                    name="com.amazonaws.us-west-1.ec2messages", port=443), private_dns_enabled=True)
+                    name="com.amazonaws."+ self.config["awsRegion"] + ".ec2messages", port=443), private_dns_enabled=True)
 
-        self.vpc.add_interface_endpoint(id="com.amazonaws.us-west-1.ssmmessages",
+        self.vpc.add_interface_endpoint(id="com.amazonaws.ssmmessages",
                 service=ec2.InterfaceVpcEndpointService(
-                    name="com.amazonaws.us-west-1.ssmmessages", port=443), private_dns_enabled=True)
+                    name="com.amazonaws."+ self.config["awsRegion"] + ".ssmmessages", port=443), private_dns_enabled=True)
 
 
     def __build_subnets_config(self):

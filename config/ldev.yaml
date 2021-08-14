@@ -1,16 +1,16 @@
 awsAccount: "526919081086"
-awsRegion: us-west-1
+awsRegion: us-east-2
 
 network:
   flowlog-bucket:
     url: "arn:aws:s3:::laz-flowlogbucket"
   vpc:
-    cidr: 10.151.96.0/21
-    # - cidr: 10.151.104.0/21        
+    - cidr: 10.151.96.0/21
+
   tgw:
     name: TGW
     description: "This is TGW"
-    # id: 
+    # id: tgw-0744dec08946ededc
 data:
   elasticsearch:
     capacity:

@@ -6,6 +6,7 @@ from aws_cdk import core
 from stacks.network_stack.network_stack import NetworkStack
 from stacks.compute_stack.compute_stack import ComputeStack
 from stacks.data_stack.data_stack import DataStack
+from stacks.KMS_stack.kms_stack import KmsStack
 from utils import config_util
 
 app = core.App()
@@ -33,6 +34,8 @@ network_stack = NetworkStack(app,
 
 print(network_stack.vpc.vpc_id)
 
+kms_dev_lam = KmsStack(app, "kms_keys")
+
 compute_stack = ComputeStack(app,
              "ComputeStack",
              config=config,
@@ -46,6 +49,7 @@ DataStack(app,
           config=config,
           vpc=network_stack.vpc,
           es_sg_id=network_stack.es_sg_id,
+          kms_dev_lam = kms_dev_lam.keyArn,
           env=env
           )
 

@@ -31,9 +31,11 @@ class NetworkStack(core.Stack):
         # core.CfnOutput(self, "dsw-es-sg-id", value= self.es_sg_id)
         
         # tgwConstruct = Tgw(self, 'Tgw', config )
-        tgw_id = config['network']['tgw']['id']
-
-        # tga = TgwAttach(self, 'tgw_attachment_vpc1', tgw_id="tgw-0b4401534e054d787", vpc=self.vpc, config=config )
+        # laz_tgw_id = config['network']['tgw']['id']
+        # if not laz_tgw_id:
+        #     tga = TgwAttach(self, 'tgw_attachment_vpc1', tgw_id=laz_tgw_id, vpc=self.vpc, config=config )
+        # else:
+        #     print("TGW not specified")
         # tga = TgwAttach(self, 'tgw_attachment_vpc1', tgw_id=tgwConstruct.TransitGateway.ref,vpc=self.vpc, config=config )
 
         # tga.TransitGatewayAttachment.add_depends_on(tgwConstruct.TransitGateway)
