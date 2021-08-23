@@ -12,3 +12,21 @@ SSO from Workspaces?
   - https://www.talkncloud.com/aws-temporary-creds-sso-cdk/
 
 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
+
+Pass env to the sub stack, use kwargs['env']
+Only Stacks need env, not the constructs...
+
+Pattern...
+
+define a stage, 
+in this stage define the components you need in that...
+Ec2, RDS and S3 created as a stage
+
+# Recommended AWS CDK project structure for Python applications
+https://aws.amazon.com/blogs/developer/recommended-aws-cdk-project-structure-for-python-applications/
+
+# Generate diagram
+https://github.com/pistazie/cdk-dia
+
+To up grade cdk, simply install only cdk-lib and constructs libraties, do not worry about teh incompatible versions.
+Now update imports, remove core and use COnstructs 

@@ -1,10 +1,10 @@
-from aws_cdk import aws_ec2 as ec2, aws_iam as iam, core, aws_emr as emr
+from aws_cdk import Stack, aws_ec2 as ec2, aws_iam as iam, core, aws_emr as emr
 
 
-class EMRClusterStack(core.Stack):
+class EMRClusterStack(Stack):
     def __init__(
         self,
-        scope: core.Construct,
+        scope: Construct,
         id: str,
         s3_log_bucket: str,
         s3_script_bucket: str,

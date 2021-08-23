@@ -1,21 +1,21 @@
 from typing import Dict
 
 from aws_cdk import (
-    core,
+    Stack,
     aws_ec2 as ec2,
 )
+from constructs import Construct
 from utils.stack_util import add_tags_to_stack
 from .vpc import Vpc
-from .security_group import SecurityGourp
 from .tgw import Tgw
 from .tgw_attach import TgwAttach
 
 
-class NetworkStack(core.Stack):
+class NetworkStack(Stack):
     vpc: ec2.IVpc
     es_sg_id: str
 
-    def __init__(self, scope: core.Construct, id: str, config: Dict, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, config: Dict, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         # Apply common tags to stack resources.
@@ -24,8 +24,8 @@ class NetworkStack(core.Stack):
         vpcConstruct = Vpc(self, 'Vpc', config)
         self.vpc = vpcConstruct.vpc
 
-        sg = SecurityGourp(self, "SecurityGroups", self.vpc)
-        self.es_sg_id = sg.es_sg.security_group_id
+        self.sg = ec2.SecurityGroup(self, "SecurityGroups", vpc= self.vpc)
+        self.es_sg_id = self.sg.security_group_id
 
         # core.CfnOutput(self, "dsw-vpc-id", value=self.vpc.vpc_id )
         # core.CfnOutput(self, "dsw-es-sg-id", value= self.es_sg_id)

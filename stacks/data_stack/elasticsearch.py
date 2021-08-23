@@ -1,16 +1,16 @@
 from typing import Dict
 
 from aws_cdk import (
-    core,
     aws_elasticsearch as es,
     aws_ec2 as ec2,
     aws_iam as iam,
 )
+from constructs import Construct
 
 
-class Elasticsearch(core.Construct):
+class Elasticsearch(Construct):
 
-    def __init__(self, scope: core.Construct, id: str,
+    def __init__(self, scope: Construct str,
                  config: Dict,
                  vpc: ec2.Vpc,
                  es_sg: ec2.SecurityGroup) -> None:

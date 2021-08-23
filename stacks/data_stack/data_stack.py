@@ -1,27 +1,29 @@
 from typing import Dict
 
 from aws_cdk import (
+    Stack,
     aws_ec2 as ec2,
     aws_rds as rds, 
     aws_secretsmanager as sm,
     aws_kms as kms,
-    core,
 )
+import aws_cdk as core
 import json
 
 from aws_cdk.aws_kms import Key
+from constructs import Construct
 from utils.stack_util import add_tags_to_stack
 # from .elasticsearch import Elasticsearch
 # from .rds_db import RDSStack
 
-class DataStack(core.Stack):
+class DataStack(Stack):
     vpc: ec2.IVpc
 
-    def __init__(self, scope: core.Construct, id: str,
+    def __init__(self, scope: Construct, id: str,
                  config: Dict,
                  vpc: ec2.Vpc,
                  es_sg_id: str,
-                 key_arn: str,
+                 kms_key: Key,
                  ** kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -63,7 +65,7 @@ class DataStack(core.Stack):
         #         }
         #     )
 
-        rdsSql = rds.DatabaseInstance( 
+        self.rdsSql = rds.DatabaseInstance( 
             self, "RDS-MSSQL",
             engine=rds.DatabaseInstanceEngine.sql_server_web(
                 version=rds.SqlServerEngineVersion.VER_14
@@ -87,11 +89,11 @@ class DataStack(core.Stack):
             instance_identifier= instanceIdentiffier,
             copy_tags_to_snapshot=True,
             # parameter_group=mydb_parameter_group
-            storage_encryption_key=key_arn
+            storage_encryption_key=kms_key
         )
-        self.endPointAddress = rdsSql.db_instance_endpoint_address
+        self.endPointAddress = self.rdsSql.db_instance_endpoint_address
         # rdsSql.add_proxy("proxy",   )
-        rdsSql.add_rotation_single_user(automatically_after=core.Duration.days(3))
+        self.rdsSql.add_rotation_single_user(automatically_after=core.Duration.days(3))
         
 
         # rdsSql.connections.allow_default_port_from(es_sg_id, "Allow from security group")

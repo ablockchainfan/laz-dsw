@@ -4,12 +4,12 @@ with open("README.md") as fp:
     long_description = fp.read()
 
 
-def __read_cdk_version() -> str:
-    f = open('cdk.version')
-    return f.read()
+# def __read_cdk_version() -> str:
+#     f = open('cdk.version')
+#     return f.read()
 
 
-CDK_VERSION = __read_cdk_version()
+# CDK_VERSION = __read_cdk_version()
 
 setuptools.setup(
     name="laz-dsw",
@@ -22,13 +22,19 @@ setuptools.setup(
     author="author",
 
     install_requires=[
-        "aws-cdk.core==" + CDK_VERSION,
-        "aws-cdk.aws-ec2==" + CDK_VERSION,
-        "aws-cdk.aws-eks==" + CDK_VERSION,
-        "aws-cdk.aws-elasticsearch==" + CDK_VERSION,
-        "aws-cdk.aws-rds==" + CDK_VERSION,
-        "python-benedict==0.22.4"
+     "aws-cdk-lib>=2.0.0rc1",
+     "constructs>=10.0.0",
+     "python-benedict==0.22.4"
     ],
+    # install_requires=[
+    #     "aws-cdk.core==" + CDK_VERSION,
+    #     "aws-cdk.aws-ec2==" + CDK_VERSION,
+    #     "aws-cdk.aws-eks==" + CDK_VERSION,
+    #     "aws-cdk.aws-elasticsearch==" + CDK_VERSION,
+    #     "aws-cdk.aws-rds==" + CDK_VERSION,
+    #     "aws_cdk.pipelines==" + CDK_VERSION,
+    #     "python-benedict==0.22.4"
+    # ],
 
     python_requires=">=3.6",
 

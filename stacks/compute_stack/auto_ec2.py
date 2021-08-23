@@ -1,8 +1,10 @@
-from aws_cdk import core
+import aws_cdk as core
 import aws_cdk.aws_ec2 as ec2
 import aws_cdk.aws_elasticloadbalancingv2 as elb
 import aws_cdk.aws_autoscaling as autoscaling
-import os 
+import os
+
+from constructs import Construct 
 
 ec2_type = "t2.medium"
 key_name = "id_rsa"  # Setup key_name for EC2 instance login 
@@ -25,7 +27,7 @@ with open(abs_file_path) as f:
 
 class AutoEc2(core.NestedStack):
 
-    def __init__(self, scope: core.Construct, id: str, vpc, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, vpc, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         # Create Bastion

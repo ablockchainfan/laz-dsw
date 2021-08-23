@@ -2,19 +2,19 @@ from typing import Dict
 from http.client import HTTPS_PORT, HTTP_PORT
 
 from aws_cdk import (
-    core,
     aws_ec2 as ec2,
     aws_eks as eks,
     aws_iam as iam,
 )
+from constructs import Construct
 
 
-class Eks(core.Construct):
+class Eks(Construct):
     _config: Dict
     _cluster: eks.Cluster
     _node_group: eks.Nodegroup
 
-    def __init__(self, scope: core.Construct, id: str,
+    def __init__(self, scope: Construct, id: str,
                  config: Dict,
                  vpc: ec2.Vpc,
                  es_sg: ec2.ISecurityGroup,

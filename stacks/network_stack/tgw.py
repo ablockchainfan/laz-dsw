@@ -1,12 +1,13 @@
 from typing import Dict, List
 
 from aws_cdk import (
-    core,
     aws_ec2 as ec2
 )
+from constructs import Construct
+import aws_cdk as core
 
-class Tgw(core.Construct):
-    def __init__(self, scope: core.Construct, id: str, config: Dict) -> None:
+class Tgw(Construct):
+    def __init__(self, scope: Construct, id: str, config: Dict) -> None:
         super().__init__(scope, id)
         self.config = config
         self._create_Tgw( )

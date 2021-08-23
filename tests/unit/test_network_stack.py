@@ -1,9 +1,8 @@
 import json
 
-from aws_cdk import core
 from stacks.network_stack import network_stack
 from utils import config_util
-
+import aws_cdk as core
 
 def get_template():
     app = core.App()

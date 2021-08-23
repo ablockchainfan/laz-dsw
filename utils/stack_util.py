@@ -1,5 +1,5 @@
 from typing import Dict
-from aws_cdk.core import (
+from aws_cdk import (
     Tags,
     Stack
 )

@@ -1,12 +1,12 @@
 from typing import Dict, List
 
 from aws_cdk import (
-    core,
     aws_ec2 as ec2
 )
+from constructs import Construct
 
-class TgwAttach(core.Construct):
-    def __init__(self, scope: core.Construct, id: str, tgw_id:str ,vpc:ec2.Vpc ,config: Dict) -> None:
+class TgwAttach(Construct):
+    def __init__(self, scope: Construct, id: str, tgw_id:str ,vpc:ec2.Vpc ,config: Dict) -> None:
         super().__init__(scope, id)
         self.config = config
         self.attach_vpc(tgw_id, vpc )

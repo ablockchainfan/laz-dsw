@@ -1,19 +1,20 @@
 from typing import Dict, List
 
 from aws_cdk import (
-    core,
     aws_ec2 as ec2,
     aws_s3 as s3
 )
+import aws_cdk as core
+from constructs import Construct
 
 
-class Vpc(core.Construct):
+class Vpc(Construct):
     config: Dict
     vpc: ec2.Vpc
     subnet_configuration: List[ec2.SubnetConfiguration] = []
 
-    def __init__(self, scope: core.Construct, id: str, config: Dict) -> None:
-        super().__init__(scope, id)
+    def __init__(self, scope: Construct, id: str, config: Dict, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
         self.config = config
 
         self.__build_subnets_config()

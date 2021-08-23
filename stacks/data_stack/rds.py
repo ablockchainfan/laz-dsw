@@ -1,12 +1,12 @@
 from stacks.data_stack.rds_db import RDSStack
-from aws_cdk import core
+from aws_cdk import Stack 
 import aws_cdk.aws_ec2 as ec2
 import aws_cdk.aws_rds as rds
+import aws_cdk as core
 
+class CdkRdsStack(Stack):
 
-class CdkRdsStack(core.Stack):
-
-    def __init__(self, scope: core.Construct, id: str, vpc, asg_security_groups, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, vpc, asg_security_groups, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         # Ceate Aurora Cluster with 2 instances with CDK High Level API
