@@ -21,9 +21,9 @@ class PipelineStack(Stack):
         pipeline = CodePipeline(self, "Pipeline",
                 synth=ShellStep("Synth",
                     input=CodePipelineSource.connection("Kasarla1/laz-dsw", "main",
-                    connection_arn="arn:aws:codestar-connections:us-east-1:222222222222:connection/7d2469ff-514a-4e4f-9003-5ca4a43cdc41"
-                ),
-                commands=["pip install -r requirements.txt", "npm install -g aws-cdk", "cdk synth"
+                        connection_arn="arn:aws:codestar-connections:us-west-1:526919081086:connection/b5c8ad29-fc7a-4a2f-af37-5aa07679c9c3"                
+                    ),
+                    commands=["pip install -r requirements.txt", "npm install -g aws-cdk", "cdk synth"
                     ]
                 )
             )

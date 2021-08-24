@@ -1,7 +1,7 @@
 LOCAL_VENV_NAME=.venv
 PYTHON=python
 STAGE?=dev
-STACKS?=NetworkStack ComputeStack DataStack s3Stack PipelineStack
+STACKS?=NetworkStack ComputeStack DataStack s3Stack PipelineStack kmsKeysStack
 
 
 .PHONY: all test lint synth diff deploy

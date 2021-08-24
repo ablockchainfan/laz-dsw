@@ -65,16 +65,16 @@ compute_stack = ComputeStack(app,
 # create S3 stack
 # apply IAM permissions to S3 resource ... (S3, principle, permissions)
 # Allow Security group access input ( Src to Destination)?
-data_stack = DataStack(app,
-          "DataStack",
-          config=config,
-          vpc=network_stack.vpc,
-          es_sg_id=network_stack.es_sg_id,
-          kms_key = kms_dev_lam.key,
-          env=env
-          )
+# data_stack = DataStack(app,
+#           "DataStack",
+#           config=config,
+#           vpc=network_stack.vpc,
+#           es_sg_id=network_stack.es_sg_id,
+#           kms_key = kms_dev_lam.key,
+#           env=env
+#           )
 
-data_stack.rdsSql.connections.allow_default_port_from(network_stack.sg, "Allow access from Ec2 machines")
+# data_stack.rdsSql.connections.allow_default_port_from(network_stack.sg, "Allow access from Ec2 machines")
 S3Stack(app,"s3Stack", kms_key=kms_dev_lam.key, env=env)
 
 PipelineStack(app, "PipelineStack", config=config, env=env)
