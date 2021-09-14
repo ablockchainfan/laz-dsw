@@ -72,7 +72,7 @@ class DataStack(Stack):
             ), 
             credentials=rds.Credentials.from_generated_secret("admin"),
             vpc=vpc,
-            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.ISOLATED),
+            vpc_subnets=ec2.SubnetSelection(subnet_group_name= 'private-data'),
             # port=3306,
             instance_type= ec2.InstanceType.of(
                 ec2.InstanceClass.BURSTABLE3,

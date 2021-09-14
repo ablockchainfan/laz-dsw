@@ -3,7 +3,7 @@
 from stacks.pipeline_stack.Pipeline_stack import MyApplication, PipelineStack
 import sys
 # from aws_cdk import core
-from aws_cdk import App, Environment, Stack
+from aws_cdk import App, Environment, Stack, aws_ec2 as ec2
 # from aws_cdk.aws_ec2 import aws_ec2 as ec2
 from aws_cdk.aws_codepipeline import Pipeline
 
@@ -36,14 +36,15 @@ env = Environment(account=config['awsAccount'],
                        )
 
 # MyApplication(app,"myApp", env=env)
-network_stack = NetworkStack(app,
-                             "NetworkStack",
-                             config=config,
-                             env=env
-                             )
+# network_stack = NetworkStack(app,
+#                              "NetworkStack",
+#                              config=config,
+#                              env=env
+#                              )
 
-print(network_stack.vpc.vpc_id)
+# print(network_stack.vpc.vpc_id)
 
+ec2.
 # security_stack = SecurityStack(app, 
 #                                 "SecurityStack", 
 #                                 vpc=network_stack.vpc,
@@ -75,7 +76,7 @@ compute_stack = ComputeStack(app,
 #           )
 
 # data_stack.rdsSql.connections.allow_default_port_from(network_stack.sg, "Allow access from Ec2 machines")
-S3Stack(app,"s3Stack", kms_key=kms_dev_lam.key, env=env)
+S3Stack(app,"s3Stack", bucket_name='my-first-bucket', kms_key=kms_dev_lam.key, env=env)
 
 PipelineStack(app, "PipelineStack", config=config, env=env)
 

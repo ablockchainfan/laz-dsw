@@ -58,7 +58,7 @@ class Eks(Construct):
             vpc=vpc,
             vpc_subnets=list(
                 map(lambda group_name: ec2.SubnetSelection(subnet_group_name=group_name),
-                    eks_config['subnetGroupNames'])
+                    eks_config['subnet_group_names'])
             ),
             default_capacity=0,
         )
@@ -75,7 +75,7 @@ class Eks(Construct):
             min_size=ng_config['minCapacity'],
             max_size=ng_config['maxCapacity'],
             desired_size=ng_config['desiredCapacity'],
-            subnets=ec2.SubnetSelection(subnet_group_name=ng_config['subnetGroupName']),
+            subnets=ec2.SubnetSelection(subnet_group_name=ng_config['subnet_group_name']),
             node_role=self.__create_eks_nodegroup_role(),
         )
 

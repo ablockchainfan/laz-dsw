@@ -7,12 +7,12 @@ import aws_cdk as core
 
 class S3Stack(Stack):
 
-    def __init__(self, scope: Construct, id: str, kms_key : kms.Key, **kwargs) -> kms.Key:
+    def __init__(self, scope: Construct, id: str, bucket_name: str, kms_key : kms.Key, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         # Create S3 buckets
         bucket = s3.Bucket(self, 'MyFirstBucket', 
-            bucket_name='my-first-bucket',
+            bucket_name=bucket_name,
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             public_read_access=False,
             removal_policy=core.RemovalPolicy.DESTROY,

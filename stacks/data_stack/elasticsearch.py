@@ -28,7 +28,7 @@ class Elasticsearch(Construct):
 
         vpc_options = es.VpcOptions(
             security_groups=[es_sg],
-            subnets=vpc.select_subnets(subnet_group_name=es_config['subnetGroupName']).subnets,
+            subnets=vpc.select_subnets(subnet_group_name=es_config['subnet_group_name']).subnets,
         )
 
         ebs_options = es.EbsOptions(volume_size=es_config['ebs']['volumeSize'])

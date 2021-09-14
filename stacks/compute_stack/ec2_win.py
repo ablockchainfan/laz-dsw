@@ -40,7 +40,7 @@ class Ec2Win(Construct):
                 instance_type=ec2.InstanceType(instance_type_identifier="t2.small"),
                 machine_image=machine_image,
                 vpc=vpc,
-                vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.ISOLATED),
+                vpc_subnets=ec2.SubnetSelection(subnet_group_name= 'private-compute'),
                 key_name=ec2_key_name, 
                 instance_name="test",
                 # security_group=ec2.SecurityGroup.from_security_group_id(self, "secGrp", security_group_id=sg_id),

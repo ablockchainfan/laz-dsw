@@ -26,7 +26,7 @@ class ComputeStack(Stack):
         bastion = ec2.BastionHostLinux(self, "myBastion",
                                 vpc=vpc,
                                 subnet_selection=ec2.SubnetSelection(
-                                    subnet_type=ec2.SubnetType.ISOLATED),
+                                    subnet_group_name= 'private-compute'), #subnet_type=ec2.SubnetType.ISOLATED
                                 instance_name="myBastionHostLinux",
                                 instance_type=ec2.InstanceType(instance_type_identifier="t2.medium"))
 

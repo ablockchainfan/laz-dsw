@@ -12,7 +12,10 @@ network:
   subnets:
     # Backend subnet
     - cidrMask: 24
-      name: Private
+      name: private-compute
+      subnetType: ISOLATED
+    - cidrMask: 24
+      name: private-data
       subnetType: ISOLATED
     # Data subnet
     # - cidrMask: 22
@@ -33,8 +36,8 @@ compute:
       maxCapacity: 3
       minCapacity: 1
       desiredCapacity: 1
-      subnetGroupName: Private
-    subnetGroupNames:
+      subnet_group_name: Private
+    subnet_group_names:
       - Private
 
 
@@ -54,7 +57,7 @@ data:
     zoneAwareness:
       enabled: true
       count: 3
-    subnetGroupName: Private
+    subnet_group_name: Private
     logging:
       appLogEnabled: true
       auditLogEnabled: true
